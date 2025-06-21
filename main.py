@@ -11,7 +11,7 @@ SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 EMAIL_ADDRESS = "peixoto1987ca@gmail.com"
 EMAIL_PASSWORD = "gasf fkoc gpth njkv"
-TO_EMAIL = "destinatario@gmail.com"  # Substitua pelo e-mail de destino
+TO_EMAIL = "peixoto1987ca@gmail.com"  # Substitua pelo e-mail de destino
 
 # --- PALAVRAS-CHAVE ---
 KEYWORDS = [
