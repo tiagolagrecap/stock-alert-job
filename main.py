@@ -28,7 +28,7 @@ KEYWORDS = [
     "FDA priority review", "approval recommended", "submission accepted", "submission granted",
     "license granted", "patent approved", "stock surge", "stock rally", "shares jump",
     "shares rally", "shares surge", "investor confidence", "partnership agreement",
-    "collaboration agreement", "deal signed", "licensing agreement", "royalty agreement", "nuclear"
+    "collaboration agreement", "deal signed", "licensing agreement", "royalty agreement"
 ]
 
 SEEN_FILE = "seen_links.txt"
