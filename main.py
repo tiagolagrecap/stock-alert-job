@@ -16,93 +16,30 @@ TO_EMAIL = "peixoto1987ca@gmail.com"
 
 # --- DICIONÁRIO COMPLETO EMPRESA-TICKER ---
 COMPANY_TICKERS = {
-    # Big Pharma
-    "Pfizer": "PFE",
-    "Moderna": "MRNA",
-    "BioNTech": "BNTX",
-    "Novartis": "NVS",
-    "Merck": "MRK",
-    "Johnson & Johnson": "JNJ",
-    "Roche": "RHHBY",
-    "Sanofi": "SNY",
-    "AstraZeneca": "AZN",
-    "GlaxoSmithKline": "GSK",
-    "Eli Lilly": "LLY",
-    "AbbVie": "ABBV",
-    "Bristol-Myers Squibb": "BMY",
-    "Gilead Sciences": "GILD",
-    "Amgen": "AMGN",
-
-    # Biotech
-    "Bionano Genomics": "BNGO",
-    "CRISPR Therapeutics": "CRSP",
-    "Editas Medicine": "EDIT",
-    "Intellia Therapeutics": "NTLA",
-    "Regeneron": "REGN",
-    "Vertex Pharmaceuticals": "VRTX",
-    "Alnylam Pharmaceuticals": "ALNY",
-    "Biogen": "BIIB",
-    "Illumina": "ILMN",
-    "Exact Sciences": "EXAS",
-    "Guardant Health": "GH",
-    "Invitae": "NVTA",
-    "Pacific Biosciences": "PACB",
-
-    # Nuclear/Energy
-    "NuScale Power": "SMR",
-    "TerraPower": "Private",
-    "General Electric": "GE",
-
-    # Tech Giants
-    "Apple": "AAPL",
-    "Microsoft": "MSFT",
-    "Google": "GOOG",
-    "Amazon": "AMZN",
-    "Tesla": "TSLA",
-    "Nvidia": "NVDA",
-    "Meta": "META",
-    "Intel": "INTC",
-
-    # Healthcare Tech
-    "Teladoc": "TDOC",
-    "Livongo": "LVGO",
-    "Veeva Systems": "VEEV"
+    # (Mantenha seu dicionário original aqui)
 }
 
 # --- PALAVRAS-CHAVE ATUALIZADAS ---
 KEYWORDS = [
-    # Aprovações Regulatórias
-    "FDA approved", "approval", "approved", "cleared", "authorized", "fast track",
-    "priority review", "breakthrough therapy", "orphan drug", "RMAT", "PMA approval",
-    "BLA approval", "NDA approval", "accelerated approval", "emergency use authorization", "EUA",
-
-    # Resultados Clínicos
-    "phase 1 success", "phase 2 success", "phase 3 success", "phase 3", "phase 3 data",
-    "clinical trial success", "clinical trial results", "positive data", "efficacy data",
-
-    # Desempenho Financeiro
-    "earnings beat", "revenue growth", "profit surge", "raised guidance", "upside potential",
-    "blockbuster drug", "sales jump", "beat estimates",
-
-    # Fusões & Aquisições
-    "acquisition", "merger", "takeover", "buyout", "strategic partnership",
-
-    # Movimentação de Ações
-    "stock surge", "stock rally", "shares jump", "short squeeze"
+    # (Mantenha sua lista original de palavras-chave aqui)
 ]
 
 SEEN_FILE = "seen_links.txt"
-
-# --- FONTES DE NOTÍCIAS CONFIÁVEIS ---
 RSS_FEEDS = [
-    f"https://feeds.finance.yahoo.com/rss/2.0/headline?s={','.join([ticker for ticker in COMPANY_TICKERS.values() if ticker != 'Private'])}&region=US&lang=en-US",
-    "https://www.fiercebiotech.com/rss.xml",
-    "https://endpts.com/feed/",
-    "http://feeds.feedburner.com/biospace"
+    # (Mantenha seus feeds RSS originais aqui)
 ]
 
 
-# --- FUNÇÃO PARA EXTRAIR TICKERS DAS NOTÍCIAS ---
+# --- FUNÇÃO PARA ENCONTRAR PALAVRA-CHAVE ---
+def find_keyword_in_text(text, keywords):
+    text_lower = text.lower()
+    for keyword in keywords:
+        if keyword.lower() in text_lower:
+            return keyword
+    return None
+
+
+# --- FUNÇÃO PARA EXTRAIR TICKERS ---
 def extract_tickers(text):
     found_tickers = set()
     text_lower = text.lower()
@@ -111,7 +48,6 @@ def extract_tickers(text):
         if company.lower() in text_lower and ticker != "Private":
             found_tickers.add(ticker)
 
-    # Procura por padrões de ticker no texto (ex: "NASDAQ: AAPL")
     ticker_matches = re.findall(r'\b[A-Z]{2,5}\b', text)
     for match in ticker_matches:
         if match in COMPANY_TICKERS.values():
@@ -120,34 +56,36 @@ def extract_tickers(text):
     return list(found_tickers)
 
 
-# --- FUNÇÃO PARA ENVIAR EMAIL (COM TICKERS) ---
+# --- FUNÇÃO PARA ENVIAR EMAIL ---
 def send_email(subject, body, to_email):
-    # Extrai tickers do corpo do email
-    related_tickers = extract_tickers(body)
-
-    # Adiciona seção de tickers ao email
-    if related_tickers:
-        tickers_section = "\n🔍 Ações Relacionadas: " + ", ".join(related_tickers)
-        body += tickers_section
-
     msg = MIMEMultipart()
     msg['From'] = EMAIL_ADDRESS
     msg['To'] = to_email
     msg['Subject'] = subject
-    msg.attach(MIMEText(body, 'plain'))
+
+    # Formata como HTML para negrito
+    html_body = f"""
+    <html>
+        <body>
+            <pre style="font-family: monospace;">
+{body}
+            </pre>
+        </body>
+    </html>
+    """
+    msg.attach(MIMEText(html_body, 'html'))
 
     try:
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
-        server.starttls()
-        server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-        server.sendmail(EMAIL_ADDRESS, to_email, msg.as_string())
-        server.quit()
-        print("✅ E-mail enviado com sucesso!")
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            server.starttls()
+            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            server.sendmail(EMAIL_ADDRESS, to_email, msg.as_string())
+        print("✅ Email enviado com formatação!")
     except Exception as e:
-        print(f"❌ Erro ao enviar e-mail: {e}")
+        print(f"❌ Erro ao enviar email: {e}")
 
 
-# --- FUNÇÃO PARA BUSCAR NOTÍCIAS COM TRATAMENTO DE ERROS ---
+# --- FUNÇÃO PARA BUSCAR NOTÍCIAS ---
 def get_finance_news():
     headers = {"User-Agent": "Mozilla/5.0"}
     news_list = []
@@ -167,22 +105,15 @@ def get_finance_news():
             for entry in feed.entries:
                 title = entry.get('title', 'Sem título')
                 link = entry.get('link', '#')
-                description = entry.get('description', '').lower()
-                title_lower = title.lower()
+                news_list.append((title, link))
 
-                if any(keyword.lower() in title_lower or keyword.lower() in description for keyword in KEYWORDS):
-                    news_list.append((title, link))
-                    print(f"👉 Notícia relevante: {title}")
-
-        except requests.exceptions.RequestException as e:
-            print(f"❌ Erro ao acessar {rss_url}: {str(e)}")
         except Exception as e:
-            print(f"⚠️ Erro inesperado em {rss_url}: {str(e)}")
+            print(f"⚠️ Erro no feed {rss_url}: {str(e)}")
 
     return news_list
 
 
-# --- GERENCIAMENTO DE LINKS JÁ VISTOS ---
+# --- GERENCIAMENTO DE LINKS ---
 def load_seen_links():
     if not os.path.exists(SEEN_FILE):
         return set()
@@ -208,24 +139,43 @@ def main():
 
     for title, link in news:
         if link not in seen_links:
-            new_items.append((title, link))
+            keyword = find_keyword_in_text(title, KEYWORDS)
+            tickers = extract_tickers(title)
+
+            if keyword or tickers:  # Só adiciona se encontrar palavra-chave ou ticker
+                new_items.append((title, link, keyword, tickers))
 
     if new_items:
         print("\n✅ Novas notícias encontradas:")
         email_body = "📰 Notícias financeiras relevantes:\n\n"
-        for title, link in new_items:
-            print(f"• {title}\n   {link}\n")
-            email_body += f"• {title}\n   {link}\n\n"
+
+        for title, link, keyword, tickers in new_items:
+            ticker_str = f"[{', '.join(tickers)}] " if tickers else ""
+            keyword_str = f"<b>{keyword}</b>" if keyword else ""
+
+            email_body += (
+                f"• {ticker_str}{title}\n"
+                f"   🔑 Palavra-chave: {keyword_str}\n"
+                f"   🔗 Link: {link}\n\n"
+            )
+            print(f"• {ticker_str}{title}")
 
         send_email("🚨 Alertas de Investimento", email_body, TO_EMAIL)
-        save_seen_links([link for _, link in new_items])
+        save_seen_links([link for _, link, _, _ in new_items])
     else:
         print("\n📭 Nenhuma notícia nova encontrada.")
 
 
-# --- EXECUÇÃO ---
 if __name__ == "__main__":
     while True:
-        main()
-        print("\n⏳ Aguardando 5 minutos para próxima verificação...")
-        time.sleep(300)
+        try:
+            main()
+            print("\n⏳ Aguardando próxima verificação (5 minutos)...")
+            time.sleep(300)
+        except KeyboardInterrupt:
+            print("\n🛑 Script interrompido pelo usuário")
+            break
+        except Exception as e:
+            print(f"\n⚠️ Erro inesperado: {str(e)}")
+            print("Reiniciando em 10 segundos...")
+            time.sleep(10)
