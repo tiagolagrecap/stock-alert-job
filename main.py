@@ -16,12 +16,106 @@ TO_EMAIL = "peixoto1987ca@gmail.com"
 
 # --- DICIONÁRIO COMPLETO EMPRESA-TICKER ---
 COMPANY_TICKERS = {
-    # (Mantenha seu dicionário original aqui)
+    # Big Pharma (original)
+    "Pfizer": "PFE",
+    "Moderna": "MRNA",
+    "BioNTech": "BNTX",
+    "Novartis": "NVS",
+    "Merck": "MRK",
+    "Johnson & Johnson": "JNJ",
+    "Roche": "RHHBY",
+    "Sanofi": "SNY",
+    "AstraZeneca": "AZN",
+    "GlaxoSmithKline": "GSK",
+    "Eli Lilly": "LLY",
+    "AbbVie": "ABBV",
+    "Bristol-Myers Squibb": "BMY",
+    "Gilead Sciences": "GILD",
+    "Amgen": "AMGN",
+    
+    # Biotech (original)
+    "Bionano Genomics": "BNGO",
+    "CRISPR Therapeutics": "CRSP",
+    "Editas Medicine": "EDIT",
+    "Intellia Therapeutics": "NTLA",
+    "Regeneron": "REGN",
+    "Vertex Pharmaceuticals": "VRTX",
+    "Alnylam Pharmaceuticals": "ALNY",
+    "Biogen": "BIIB",
+    "Illumina": "ILMN",
+    "Exact Sciences": "EXAS",
+    "Guardant Health": "GH",
+    "Invitae": "NVTA",
+    "Pacific Biosciences": "PACB",
+    
+    # Nuclear/Energy (original)
+    "NuScale Power": "SMR",
+    "General Electric": "GE",
+    
+    # Tech Giants (original)
+    "Apple": "AAPL",
+    "Microsoft": "MSFT",
+    "Google": "GOOG",
+    "Amazon": "AMZN",
+    "Tesla": "TSLA",
+    "Nvidia": "NVDA",
+    "Meta": "META",
+    "Intel": "INTC",
+    
+    # Healthcare Tech (original)
+    "Teladoc": "TDOC",
+    "Livongo": "LVGO",
+    "Veeva Systems": "VEEV",
+    
+    # --- ADIÇÃO: CRIPTOMOEDAS (ROBINHOOD) ---
+    "Bitcoin": "BTC-USD",
+    "Ethereum": "ETH-USD",
+    "Dogecoin": "DOGE-USD",
+    "Shiba Inu": "SHIB-USD",
+    "Litecoin": "LTC-USD",
+    "Solana": "SOL-USD",
+    "Polygon": "MATIC-USD",
+    "Avalanche": "AVAX-USD",
+    "Chainlink": "LINK-USD",
+    "Uniswap": "UNI-USD",
+    "Stellar": "XLM-USD",
+    "Algorand": "ALGO-USD",
+    "Filecoin": "FIL-USD",
+    "Tezos": "XTZ-USD",
+    "Decentraland": "MANA-USD",
+    "The Sandbox": "SAND-USD",
+    "USD Coin": "USDC-USD"
 }
 
-# --- PALAVRAS-CHAVE ATUALIZADAS ---
+# --- PALAVRAS-CHAVE ATUALIZADAS (ORIGINAIS + CRIPTO) ---
 KEYWORDS = [
-    # (Mantenha sua lista original de palavras-chave aqui)
+    # --- SUAS PALAVRAS-CHAVE ORIGINAIS ---
+    "FDA approved", "approval", "approved", "cleared", "authorized", "fast track",
+    "priority review", "breakthrough therapy", "orphan drug", "RMAT", "PMA approval",
+    "BLA approval", "NDA approval", "accelerated approval", "emergency use authorization", "EUA",
+    "phase 1 success", "phase 2 success", "phase 3 success", "phase 3", "phase 3 data",
+    "clinical trial success", "clinical trial results", "positive data", "efficacy data",
+    "earnings beat", "revenue growth", "profit surge", "raised guidance", "upside potential",
+    "blockbuster drug", "sales jump", "beat estimates",
+    "acquisition", "merger", "takeover", "buyout", "strategic partnership",
+    "stock surge", "stock rally", "shares jump", "short squeeze",
+    
+    # --- PALAVRAS-CHAVE DE CRIPTO ADICIONADAS ---
+    # Fundamentos
+    "adoption", "partnership", "listing", "burn", "scarcity", "halving",
+    # Mercado
+    "bullish", "breakout", "rally", "surge", "soaring", "price increase", 
+    "uptrend", "bull run", "all-time high", "ATH", "recovery",
+    # Tecnologia
+    "upgrade", "mainnet", "staking", "yield farming", "protocol upgrade",
+    # Eventos
+    "airdrop", "buyback", "supply reduction", 
+    # Indicadores
+    "volume spike", "liquidity", "whale accumulation",
+    # Projeções
+    "price target", "upside potential",
+    # Sentimento
+    "optimism", "market confidence", "FOMO"
 ]
 
 SEEN_FILE = "seen_links.txt"
